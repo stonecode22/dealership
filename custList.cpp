@@ -16,7 +16,7 @@ cll::~cll()
 	}
       else
 	{
-	  node* temp = rear->next;
+	  nodeC* temp = rear->next;
 	  delete rear;
 	  rear = temp;
 	}
@@ -28,24 +28,24 @@ int cll::add(customer* p)
   return add(rear, p);
 }
 
-int cll::add(node* &rear, customer* p)
+int cll::add(nodeC* &rear, customer* p)
 {
   if(rear == NULL)
     {
-      node* newNode = new node;
-      newNode->c->setFirst(p.getFirst());
-      newNode->c->setLast(p.getLast());
-      newNode->c->setID(p.getID());
+      nodeC* newNode = new nodeC;
+      newNode->c->setFirst(p->getFirst());
+      newNode->c->setLast(p->getLast());
+      newNode->c->setID(p->getID());
       newNode->next = newNode;
       rear = newNode;
       return 1;
     }
   else
     {
-      node* newNode = new node;
-      newNode->c->setFirst(p.getFirst());
-      newNode->c->setLast(p.getLast());
-      newNode->c->setID(p.getID());
+      nodeC* newNode = new nodeC;
+      newNode->c->setFirst(p->getFirst());
+      newNode->c->setLast(p->getLast());
+      newNode->c->setID(p->getID());
       newNode->next = rear->next;
       return 1;
     }
@@ -56,7 +56,7 @@ int cll::rem(int id)
   return rem(rear, id);
 }
 
-int cll::rem(node* &rear, int id)
+int cll::rem(nodeC* &rear, int id)
 {
   if(rear == NULL)
     {
@@ -64,7 +64,7 @@ int cll::rem(node* &rear, int id)
     }
   else if(rear->next == rear)
     {
-      if(id == rear->c->getID)
+      if(id == rear->c->getID())
 	{
 	  delete rear;
 	  rear = NULL;
@@ -77,12 +77,12 @@ int cll::rem(node* &rear, int id)
     }
   else
     {
-      node* temp = rear;
+      nodeC* temp = rear;
       do
 	{
 	  if(id == temp->c->getID())
 	    {
-	      node* save = temp->next;
+	      nodeC* save = temp->next;
 	      delete temp;
 	      temp = save;
 	      return 1;
@@ -99,14 +99,14 @@ int cll::rem(node* &rear, int id)
     }
 }
 
-void cll::display()
+void cll::displayAll()
 {
-  return display(rear);
+  return displayAll(rear);
 }
 
-void cll::display(node* r);
+void cll::displayAll(nodeC* r)
 {
-  if(r == NULL || r->next == rear)
+  if(r == NULL || r->next == r)
     {
       if(r != NULL)
 	{
@@ -118,7 +118,7 @@ void cll::display(node* r);
   else
     {
       r->c->display();
-      display(r->next);
+      displayAll(r->next);
       return;
     }
 }

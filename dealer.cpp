@@ -165,6 +165,7 @@ float car::setRate(float newRate)
 
 //Customer Parent Class
 
+/*
 customer::customer()
 {
   rentPeriod = 0;
@@ -263,3 +264,4 @@ int customer::getID()
 {
   return cID;
 }
+*/

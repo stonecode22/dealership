@@ -1,4 +1,5 @@
-#pragma
+#ifndef DEALER_H
+#define DEALER_H
 
 #include<iostream>
 #include<iomanip>
@@ -58,6 +59,7 @@ class car
 
 //customer class
 
+/*
 class customer
 {
  public:
@@ -106,3 +108,6 @@ class vips : public customer
   int rentPeriod;
   void display();
 };
+*/
+
+#endif

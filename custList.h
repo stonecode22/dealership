@@ -1,9 +1,12 @@
-#include "dealer.h"
+#ifndef CUSTLIST_H
+#define CUSTLIST_H
 
-struct node
+#include "customer.h"
+
+struct nodeC
 {
   customer* c;
-  node* next;
+  nodeC* next;
 };
 
 class cll
@@ -15,8 +18,10 @@ class cll
   int rem(int id);
   void displayAll();
  private:
-  int add(node* &rear, customer* p);
-  int rem(node* &rear, int id);
-  void displayAll(node* rear);
-  node* rear;
+  int add(nodeC* &rear, customer* p);
+  int rem(nodeC* &rear, int id);
+  void displayAll(nodeC* rear);
+  nodeC* rear;
 };
+
+#endif

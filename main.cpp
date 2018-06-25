@@ -3,10 +3,10 @@
 
 int main()
 {
-  vips c1("Glenn", "Woods", 121);
+  vips* c1 = new vips("Glenn", "Woods", 121);
   cll people;
   people.add(c1);
-  people.display();
+  people.displayAll();
   
   hashT table;
   char choice[30];

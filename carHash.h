@@ -1,4 +1,5 @@
-#pragma
+#ifndef CARHASH_H
+#define CARHASH_H
 
 #include"carList.h"
 
@@ -17,3 +18,5 @@ class hashT
   list* array;
   int size;
 };
+
+#endif

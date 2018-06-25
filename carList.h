@@ -1,4 +1,5 @@
-#pragma
+#ifndef CARLIST_H
+#define CARLIST_H
 #include"dealer.h"
 
 struct node
@@ -34,3 +35,5 @@ class list
   int rem(node* &head, int id);
   void display(node* head);
 };
+
+#endif
