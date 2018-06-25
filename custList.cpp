@@ -23,19 +23,19 @@ cll::~cll()
     }
 }
 
-int cll::add(customer p)
+int cll::add(customer* p)
 {
   return add(rear, p);
 }
 
-int cll::add(node* &rear, customer p)
+int cll::add(node* &rear, customer* p)
 {
   if(rear == NULL)
     {
       node* newNode = new node;
-      newNode->c.setFirst(p.getFirst());
-      newNode->c.setLast(p.getLast());
-      newNode->c.setID(p.getID());
+      newNode->c->setFirst(p.getFirst());
+      newNode->c->setLast(p.getLast());
+      newNode->c->setID(p.getID());
       newNode->next = newNode;
       rear = newNode;
       return 1;
@@ -43,9 +43,9 @@ int cll::add(node* &rear, customer p)
   else
     {
       node* newNode = new node;
-      newNode->c.setFirst(p.getFirst());
-      newNode->c.setLast(p.getLast());
-      newNode->c.setID(p.getID());
+      newNode->c->setFirst(p.getFirst());
+      newNode->c->setLast(p.getLast());
+      newNode->c->setID(p.getID());
       newNode->next = rear->next;
       return 1;
     }
@@ -64,7 +64,7 @@ int cll::rem(node* &rear, int id)
     }
   else if(rear->next == rear)
     {
-      if(id == rear->c.getID)
+      if(id == rear->c->getID)
 	{
 	  delete rear;
 	  rear = NULL;
@@ -80,7 +80,7 @@ int cll::rem(node* &rear, int id)
       node* temp = rear;
       do
 	{
-	  if(id == temp->c.getID())
+	  if(id == temp->c->getID())
 	    {
 	      node* save = temp->next;
 	      delete temp;
@@ -110,14 +110,14 @@ void cll::display(node* r);
     {
       if(r != NULL)
 	{
-	  r->c.display();
+	  r->c->display();
 	  cout << endl;
 	}
       return;
     }
   else
     {
-      r->c.display();
+      r->c->display();
       display(r->next);
       return;
     }

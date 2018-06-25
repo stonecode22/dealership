@@ -179,18 +179,13 @@ customer::~customer()
   cID = 0;
 }
 
-customer::customer(char* newFirst, char* newLast, int newID)
+normal::normal(char* newFirst, char* newLast, int newID)
 {
   first = new char[strlen(newFirst)+1];
   strcpy(first, newFirst);
   last = new char[strlen(newLast)+1];
   strcpy(last, newLast);
   cID = newID;
-}
-
-normal::normal(char* newFirst, char* newLast, int newID) : customer(newFirst, newLast, newID)
-{
-
 }
 
 void normal::display()
@@ -200,10 +195,15 @@ void normal::display()
   cout << "ID:     " << cID << endl;
 }
 
-corps::corps(char* newFirst, char* newLast, int newID) : customer(newFirst, newLast, newID)
+corps::corps(char* newFirst, char* newLast, int newID)
 {
-
+  first = new char[strlen(newFirst)+1];
+  strcpy(first, newFirst);
+  last = new char[strlen(newLast)+1];
+  strcpy(last, newLast);
+  cID = newID;
 }
+
 
 void corps::display()
 {
@@ -212,10 +212,15 @@ void corps::display()
   cout << "ID:    " << cID << endl;
 }
 
-vips::vips(char* newFirst, char* newLast, int newID) : customer(newFirst, newLast, newID)
+vips::vips(char* newFirst, char* newLast, int newID)
 {
-
+  first = new char[strlen(newFirst)+1];
+  strcpy(first, newFirst);
+  last = new char[strlen(newLast)+1];
+  strcpy(last, newLast);
+  cID = newID;
 }
+
 
 void vips::display()
 {

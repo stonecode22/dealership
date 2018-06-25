@@ -5,6 +5,7 @@
 #include<string.h>
 using namespace std;
 
+/*
 class dealer
 {
  public:
@@ -16,6 +17,7 @@ class dealer
   hashT ha;
   list list;
 };
+*/
 
 class car
 {
@@ -61,14 +63,13 @@ class customer
  public:
   customer();
   ~customer();
-  customer(char* first, char* last, int cID);
   //  int returnCar(int cID);
   //  int rentStandard(int cID);
   virtual void display() = 0;
 
-  char* setFirst(char* newFirst);
+  char* setFirst(const char* newFirst);
   char* getFirst();
-  char* setLast(char* newLast);
+  char* setLast(const char* newLast);
   char* getLast();
   int setID(int newID);
   int getID();
@@ -83,7 +84,7 @@ class customer
 class normal : public customer
 {
  public:
-  normal(char* first, char* last, int cID);
+  normal(const char* first, const char* last, int cID);
   int rentPeriod;
   void display();
 };
@@ -91,7 +92,7 @@ class normal : public customer
 class corps : public customer
 {
  public:
-  corps(char* first, char* last, int cID);
+  corps(const char* first, const char* last, int cID);
   //  int rentLuxury(int id);
   int rentPeriod;
   void display();
@@ -100,7 +101,7 @@ class corps : public customer
 class vips : public customer
 {
  public:
-  vips(char* first, char* last, int cID);
+  vips(const char* first, const char* last, int cID);
   //  int rentLuxury(int id);
   int rentPeriod;
   void display();
