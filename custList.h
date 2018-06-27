@@ -16,12 +16,13 @@ class cll
   ~cll();
   int add(customer* person);
   int rem(int id);
-  void displayAll();
+  int displayAll();
  private:
-  int add(nodeC* &rear, customer* p);
-  int rem(nodeC* &rear, int id);
-  void displayAll(nodeC* rear);
+  int add(nodeC* &rear, nodeC* &last, customer* p);
+  int rem(nodeC* &rear, nodeC* &last, int id);
+  int displayAll(nodeC* rear);
   nodeC* rear;
+  nodeC* last;
   int count;
 };
 

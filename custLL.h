@@ -14,7 +14,7 @@ class lll
  private:
   int add(nodeC* &head, customer* p);
   int rem(nodeC* &head, int id);
-  int display(node* head);
+  int display(nodeC* head);
 };
 
 #endif

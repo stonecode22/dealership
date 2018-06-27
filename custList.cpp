@@ -3,6 +3,7 @@
 cll::cll()
 {
   rear = NULL;
+  last = NULL;
   count = 0;
 }
 
@@ -28,10 +29,10 @@ cll::~cll()
 
 int cll::add(customer* p)
 {
-  return add(rear, p);
+  return add(rear, last, p);
 }
 
-int cll::add(nodeC* &rear, customer* p)
+int cll::add(nodeC* &r, nodeC* & l, customer* p)
 {
   if(rear == NULL)
     {
@@ -39,116 +40,113 @@ int cll::add(nodeC* &rear, customer* p)
       newNode->c = p;
       newNode->next = newNode;
       rear = newNode;
+      last = newNode;
+      count++;
+      return 1;
+    }
+  else if(r->next == rear)
+    {
+      nodeC* newNode = new nodeC;
+      newNode->c = p;
+      newNode->next = rear;
+      r->next = newNode;
+      last = newNode;
       count++;
       return 1;
     }
   else
     {
-      nodeC* newNode = new nodeC;
-      newNode->c = p;
-      newNode->next = rear->next;
-      rear->next = newNode;
-      count++;
-      return 1;
+      return add(r->next, last, p);
     }
 }
 
 int cll::rem(int id)
 {
-  return rem(rear, id);
+  return rem(rear, last, id);
 }
 
-int cll::rem(nodeC* &r, int id)
+int cll::rem(nodeC* &r, nodeC* &l, int id)
 {
-  if(r == NULL || r->next == rear)
+  if(r == NULL)
     {
-      cout << "e1\n";
-      if(r != NULL)
+      return -1;
+    }
+  if(rear->next == rear)
+    {
+      if(id == rear->c->getID())
 	{
-	  if(id == r->c->getID())
-	    {
-	      nodeC* temp = rear->next;
-	      if(r == rear)
-		{
-		  delete r;
-		  r = NULL;
-		  count--;
-		  return 1;
-		}
-	      else
-		{
-		  delete r;
-		  r = temp;
-		  count--;
-		  return 1;
-		}
-	    }
-	  return -1;
+	  delete rear;
+	  rear = NULL;
+	  last = NULL;
+	  count--;
+	  return 1;
+	}
+      else
+	{
+	  return 0;
 	}
     }
   else
     {
-      cout << "e2\n";
-      if(id == r->c->getID())
+      nodeC* temp = r;
+      do
 	{
-	  cout << "match\n";
-	  nodeC* save = r->next;
-	  if(r == rear)
+	  if(id == (temp->next)->c->getID())
 	    {
-	      cout << "rear\n";
-	      delete rear;
-	      cout <<"seg1\n";
-	      rear = save;
-	      cout << "seg2\n";
-	      count--;
-	      return 1;
+	      if(temp->next == last)
+		{
+		  temp->next = rear;
+		  delete last;
+		  last = temp;
+		  return 1;
+		}
+	      else if(temp->next == rear)
+		{
+		  nodeC* save = rear->next;
+		  temp->next = save;
+		  delete rear;
+		  rear = save;
+		  return 1;
+		}
+	      else
+		{
+		  nodeC* save = temp->next;
+		  temp->next = save->next;
+		  delete save;
+		  save = NULL;
+		  return 1;
+		}
 	    }
 	  else
 	    {
-	      cout << "r\n";
-	      delete r;
-	      r = NULL;
-	      r = save;
-	      count--;
-	      return 1;
+	      temp = temp->next;
 	    }
-	}
-      else
-	{
-	  cout << "trav\n";
-	  rem(r->next, id);
-	}
+	}while(temp != rear);
+      return 0;
     }
 }
 
-void cll::displayAll()
+int cll::displayAll()
 {
   return displayAll(rear);
 }
 
-void cll::displayAll(nodeC* r)
+int cll::displayAll(nodeC* r)
 {
-  cout << "er3\n";
   if(r == NULL || r->next == rear)
     {
       if(r != NULL)
 	{
 	  r->c->display();
 	  cout << endl;
+	  return 1;
 	}
+      return 0;
     }
   else
     {
-      cout << "er4\n"; //ERROR, on 2 nodes, the 2nd one goes here (wrong!)
-      if(r == rear)
-	{
-	  cout << "head\n";
-	}
       r->c->display();
       cout << endl;
-      cout << "it's over\n";
       displayAll(r->next);
     }
 }
-	  
-      

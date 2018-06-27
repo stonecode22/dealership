@@ -6,18 +6,17 @@ int main()
   corps* c1 = new corps("Glenn", "Woods", 121);
   vips* c2 = new vips("Adam", "Sander", 201);
   normal* c3 = new normal("Bob", "Ross", 1337);
+  normal* c4 = new normal("Lil", "Explosivo", 666);
+  
   cll people;
   people.add(c1);
   people.add(c2);
   people.add(c3);
+  people.add(c4);
   people.rem(121);
-  people.rem(201);
-  /*  people.displayAll();
-  cout << "\n\n";
-  people.rem(121);
-  cout << "gg\n";
+  people.rem(666);
   people.displayAll();
-  */
+
   hashT table;
   char choice[30];
   int id = 0;
