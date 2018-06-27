@@ -22,6 +22,7 @@ class cll
   int rem(nodeC* &rear, int id);
   void displayAll(nodeC* rear);
   nodeC* rear;
+  int count;
 };
 
 #endif

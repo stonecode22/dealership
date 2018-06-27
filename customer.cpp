@@ -25,7 +25,7 @@ normal::normal(const char* newFirst, const char* newLast, int newID)
 
 void normal::display()
 {
-  cout << first << " " << last << endl;
+  cout << "Name:   " << first << " " << last << endl;
   cout << "Class:  Normal\n";
   cout << "ID:     " << cID << endl;
 }
@@ -42,9 +42,9 @@ corps::corps(const char* newFirst, const char* newLast, int newID)
 
 void corps::display()
 {
-  cout << first << " " << last << endl;
+  cout << "Name:   " << first << " " << last << endl;
   cout << "Class:  Corporation\n";
-  cout << "ID:    " << cID << endl;
+  cout << "ID:     " << cID << endl;
 }
 
 vips::vips(const char* newFirst, const char* newLast, int newID)
@@ -59,7 +59,7 @@ vips::vips(const char* newFirst, const char* newLast, int newID)
 
 void vips::display()
 {
-  cout << first << " " << last << endl;
+  cout << "NAme:   " << first << " " << last << endl;
   cout << "Class:  VIP\n";
   cout << "ID:     " << cID << endl;
 }
