@@ -102,6 +102,70 @@ void list::display(node* head)
     }
 }
 
+int list::rent(int carID)
+{
+  return rent(head, carID);
+}
+
+int list::rent(node* &head, int carID)
+{
+  if(head == NULL)
+    {
+      return -1;
+    }
+  else
+    {
+      if(carID == head->vehicle.getID())
+	{
+	  if(head->vehicle.getStock() == true)
+	    {
+	      if(head->vehicle.getLuxury() == false)
+		{
+		  return 1;
+		}
+	      else
+		{
+		  return 2;
+		}
+	    }
+	  else
+	    {
+	      return 0;
+	    }
+	}
+      else
+	{
+	  return rent(head->next, carID);
+	}
+    }
+}
+
+bool list::setStock(bool lux, int carID)
+{
+  return setStock(head, lux, carID);
+}
+
+bool list::setStock(node* &head, bool lux, int carID)
+{
+  if(head == NULL)
+    {
+      return false;
+    }
+  else
+    {
+      if(carID == head->vehicle.getID())
+	{
+	  head->vehicle.setStock(lux);
+	  return lux;
+	}
+      else
+	{
+	  return setStock(head->next, lux, carID);
+	}
+    }
+}
+	  
+
 int list::retID()
 {
   if(head != NULL)
@@ -197,4 +261,3 @@ bool list::retStock()
       return false;
     }
 }
-

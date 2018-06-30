@@ -72,3 +72,15 @@ int hashT::checkSize()
 {
   return size;
 }
+
+int hashT::rentCar(int carID)
+{
+  int index = hf(carID);
+  return (array[index].rent(carID));
+}
+
+bool hashT::setCarStock(int carID, bool lux)
+{
+  int index = hf(carID);
+  return (array[index].setStock(lux, carID));
+}

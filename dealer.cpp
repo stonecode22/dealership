@@ -1,267 +1,92 @@
-#include"carHash.h"
+#include"dealer.h"
 
-car::car()
+dealer::dealer()
 {
-  id = 0;
-  stock = true;
-  age = 0;
-  type = NULL;
-  name = NULL;
-  brand = NULL;
-  luxury = false;
-  rate = 0;
+
 }
 
-car::car(int newId, const char* newBrand, const char* newName, const char* newType, float newRate, bool newLux, int newAge)
+dealer::~dealer()
 {
-  id = newId;
-  type = new char[strlen(newType)+1];
-  strcpy(type, newType);
-  name = new char[strlen(newName)+1];
-  strcpy(name, newName);
-  brand = new char[strlen(newBrand)+1];
-  strcpy(brand, newBrand);
-  rate = newRate;
-  luxury = newLux;
-  age = newAge;
-  stock = true;
+
 }
 
-car::~car()
+void dealer::addCar(car newCar)
 {
-  id = 0;
-  luxury = false;
-  stock = false;
-  rate = 0;
-  age = 0;
+  table.add(newCar);
 }
 
-void car::displayAll()
+void dealer::remCar(int id)
 {
-  cout << "Brand:       " << brand << endl;
-  cout << "Name:        " << name << endl;
-  cout << "Class:       ";
-  if(luxury == true)
+  table.rem(id);
+}
+
+void dealer::displayCars()
+{
+  table.display();
+}
+
+void dealer::addCust(customer* newCustomer)
+{
+  circList.add(newCustomer);
+}
+
+void dealer::remCust(int id)
+{
+  circList.rem(id);
+}
+
+void dealer::displayCustomers()
+{
+  circList.display();
+}
+
+void dealer::rent(int carID, int custID)
+{
+  int retID = table.rentCar(carID);
+  if(retID == -1)
     {
-      cout << "Luxury\n";
+      cout << "No car with ID " << carID << "." << endl;
+      return;
     }
-  else
+  else if(retID == 0)
     {
-      cout << "Standard\n";
+      cout << "Car is rented by somebody else. Choose another car.\n";
+      return;
     }
-  cout << "Type:        " << type << endl;
-  cout << "Model ID:    " << id << endl;
-  cout << "Daily rate:  " << fixed << setprecision(2) << rate << endl;
-  cout << "Age (Years): ";
-  if(age == 0)
+  else if(retID == 1)
     {
-      cout << "NEW\n";
+      if(circList.rent(carID, custID) == 1)
+	{
+	  table.setCarStock(carID, false);
+	  cout << "Transaction complete.\n";
+	}
+      else
+	{
+	  cout << "Transaction failed.\n";
+	}
+      return;
     }
-  else
+  else if(retID == 2)
     {
-      cout << age << endl;
+      if(circList.checkLuxury(custID) == true)
+	{
+	  if(circList.rent(carID, custID) == 1)
+	    {
+	      table.setCarStock(carID, false);
+	      cout << "Transaction complete.\n";
+	    }
+	  else
+	    {
+	      cout << "Transaction failed.\n";
+	    }
+	  return;
+	}
+      else
+	{
+	  cout << "Customer #" << custID << " is not a Corporate Customer nor a VIP who cannot buy luxury vehicles.\n";
+	  return;
+	}
     }
-  cout << "Stock:       ";
-  if(stock == false)
-    {
-      cout << "Not available\n\n";
-    }
-  else
-    {
-      cout << "Available\n\n";
-    }
+  
 }
-
-int car::getID()
-{
-  return id;
-}
-
-int car::setID(int newID)
-{
-  id = newID;
-  return id;
-}
-
-bool car::getStock()
-{
-  return stock;
-}
-
-bool car::setStock(bool newStock)
-{
-  stock = newStock;
-  return stock;
-}
-
-int car::getAge()
-{
-  return age;
-}
-
-int car::setAge(int newAge)
-{
-  age = newAge;
-  return age;
-}
-
-char* car::getType()
-{
-  return type;
-}
-
-char* car::setType(char* newType)
-{
-  type = new char[strlen(newType)+1];
-  strcpy(type, newType);
-  return type;
-}
-
-char* car::getName()
-{
-  return name;
-}
-
-char* car::setName(char* newName)
-{
-  name = new char[strlen(newName)+1];
-  strcpy(name, newName);
-  return name;
-}
-
-char* car::getBrand()
-{
-  return brand;
-}
-
-char* car::setBrand(char* newBrand)
-{
-  brand = new char[strlen(newBrand)+1];
-  strcpy(brand, newBrand);
-  return brand;
-}
-
-bool car::getLuxury()
-{
-  return luxury;
-}
-
-bool car::setLuxury(bool newLuxury)
-{
-  luxury = newLuxury;
-  return luxury;
-}
-
-float car::getRate()
-{
-  return rate;
-}
-
-float car::setRate(float newRate)
-{
-  rate = newRate;
-  return rate;
-}
-
-//Customer Parent Class
-
-/*
-customer::customer()
-{
-  rentPeriod = 0;
-  first = NULL;
-  last = NULL;
-  cID = 0;
-}
-
-customer::~customer()
-{
-  rentPeriod = 0;
-  cID = 0;
-}
-
-normal::normal(char* newFirst, char* newLast, int newID)
-{
-  first = new char[strlen(newFirst)+1];
-  strcpy(first, newFirst);
-  last = new char[strlen(newLast)+1];
-  strcpy(last, newLast);
-  cID = newID;
-}
-
-void normal::display()
-{
-  cout << first << " " << last << endl;
-  cout << "Class:  Normal\n";
-  cout << "ID:     " << cID << endl;
-}
-
-corps::corps(char* newFirst, char* newLast, int newID)
-{
-  first = new char[strlen(newFirst)+1];
-  strcpy(first, newFirst);
-  last = new char[strlen(newLast)+1];
-  strcpy(last, newLast);
-  cID = newID;
-}
-
-
-void corps::display()
-{
-  cout << first << " " << last << endl;
-  cout << "Class:  Corporation\n";
-  cout << "ID:    " << cID << endl;
-}
-
-vips::vips(char* newFirst, char* newLast, int newID)
-{
-  first = new char[strlen(newFirst)+1];
-  strcpy(first, newFirst);
-  last = new char[strlen(newLast)+1];
-  strcpy(last, newLast);
-  cID = newID;
-}
-
-
-void vips::display()
-{
-  cout << first << " " << last << endl;
-  cout << "Class:  VIP\n";
-  cout << "ID:     " << cID << endl;
-}
-
-char* customer::setFirst(char* newFirst)
-{
-  first = new char[strlen(newFirst)+1];
-  strcpy(first, newFirst);
-  return first;
-}
-
-char* customer::getFirst()
-{
-  return first;
-}
-
-char* customer::setLast(char* newLast)
-{
-  last = new char[strlen(newLast)+1];
-  strcpy(last, newLast);
-  return last;
-}
-
-char* customer::getLast()
-{
-  return last;
-}
-
-int customer::setID(int newID)
-{
-  cID = newID;
-  return cID;
-}
-
-int customer::getID()
-{
-  return cID;
-}
-*/
+  

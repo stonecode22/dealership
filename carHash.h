@@ -12,6 +12,8 @@ class hashT
   int rem(int id);
   void display();
   int checkSize();
+  int rentCar(int carID);
+  bool setCarStock(int carID, bool lux);
 
  private:
   int hf(int key);

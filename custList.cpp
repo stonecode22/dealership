@@ -37,7 +37,18 @@ int cll::add(nodeC* &r, nodeC* & l, customer* p)
   if(rear == NULL)
     {
       nodeC* newNode = new nodeC;
-      newNode->c = p;
+      if(p->getCarType() == 0)
+	{
+	  newNode->c = new normal(p->getFirst(), p->getLast(), p->getID());
+	}
+      else if(p->getCarType() == 1)
+	{
+	  newNode->c = new corps(p->getFirst(), p->getLast(), p->getID());
+	}
+      else
+	{
+	  newNode->c = new vips(p->getFirst(), p->getLast(), p->getID());
+	}
       newNode->next = newNode;
       rear = newNode;
       last = newNode;
@@ -47,7 +58,18 @@ int cll::add(nodeC* &r, nodeC* & l, customer* p)
   else if(r->next == rear)
     {
       nodeC* newNode = new nodeC;
-      newNode->c = p;
+      if(p->getCarType() == 0)
+	{
+	  newNode->c = new normal(p->getFirst(), p->getLast(), p->getID());
+	}
+      else if(p->getCarType() == 1)
+	{
+	  newNode->c = new corps(p->getFirst(), p->getLast(), p->getID());
+	}
+      else
+	{
+	  newNode->c = new vips(p->getFirst(), p->getLast(), p->getID());
+	}
       newNode->next = rear;
       r->next = newNode;
       last = newNode;
@@ -98,6 +120,7 @@ int cll::rem(nodeC* &r, nodeC* &l, int id)
 		  temp->next = rear;
 		  delete last;
 		  last = temp;
+		  count--;
 		  return 1;
 		}
 	      else if(temp->next == rear)
@@ -106,6 +129,7 @@ int cll::rem(nodeC* &r, nodeC* &l, int id)
 		  temp->next = save;
 		  delete rear;
 		  rear = save;
+		  count--;
 		  return 1;
 		}
 	      else
@@ -114,6 +138,7 @@ int cll::rem(nodeC* &r, nodeC* &l, int id)
 		  temp->next = save->next;
 		  delete save;
 		  save = NULL;
+		  count--;
 		  return 1;
 		}
 	    }
@@ -122,7 +147,6 @@ int cll::rem(nodeC* &r, nodeC* &l, int id)
 	      temp = temp->next;
 	    }
 	}while(temp != rear);
-      return 0;
     }
 }
 
@@ -148,5 +172,74 @@ int cll::displayAll(nodeC* r)
       r->c->display();
       cout << endl;
       displayAll(r->next);
+    }
+}
+
+int cll::getCount()
+{
+  return count;
+}
+
+int cll::rent(int carID, int custID)
+{
+  return rent(rear, carID, custID);
+}
+
+int cll::rent(nodeC* &r, int carID, int custID)
+{
+  if(r == NULL || r->next == rear)
+    {
+      if(r != NULL)
+	{
+	  if(custID == r->c->getID())
+	    {
+	      r->c->rent(carID);
+	      return 1;
+	    }
+	}
+      return 0;
+    }
+  else
+    {
+      if(custID == r->c->getID())
+	{
+	  r->c->rent(carID);
+	  return 1;
+	}
+      else
+	{
+	  return rent(r->next, carID, custID);
+	}
+    }
+}
+      
+bool cll::checkLuxury(int custID)
+{
+  return checkLuxury(rear, custID);
+}
+
+bool cll::checkLuxury(nodeC* &r, int custID)
+{
+  if(r == NULL || r->next == rear)
+    {
+      if(r != NULL)
+	{
+	  if(custID == r->c->getID())
+	    {
+	      return r->c->getPermission();
+	    }
+	}
+      return 0;
+    }
+  else
+    {
+      if(custID == r->c->getID())
+	{
+	  return r->c->getPermission();
+	}
+      else
+	{
+	  return checkLuxury(r->next, custID);
+	}
     }
 }
