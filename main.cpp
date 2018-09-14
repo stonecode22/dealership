@@ -1,26 +1,31 @@
+/*
+*  Title: Car Rental Dealership Registry
+*
+*  User can add customers and cars into the registry and
+*  can link customers to cars (rent) based on their customer
+*  status (Regular, Corp. Customer, VIP)
+*
+*  @author Stone Yang
+*  @version v2.0
+*
+*/
 #include"dealer.h"
 
-void carCreation(dealer* dealership, int carID);
-void custCreation(dealer* dealership, int custID);
+void carCreation(dealer* dealership, int carID); //function creates a car
+void custCreation(dealer* dealership, int custID); //enters a customer
 car carGen(dealer* dealership, int id);
-//customer custGen(int id);
 
-const int RANDOMCAR = 10;
+const int RANDOMCAR = 10; //number of randomly generated cars at program launch
 
 int main()
 {
-  cll list;
   dealer dealership;
   char choice[30];
   int carID = 0;
   int custID = 1;
   bool repeat = true;
-  srand(time(NULL));
+  srand(time(NULL)); //for random generator
 
-  vips* vip = new vips("Adam", "Barkley", 100);
-  list.add(vip);
-  list.displayAll();
-  delete vip;
   list.displayAll();
 
   for(int i = 1; i < RANDOMCAR+1; i++)
@@ -140,17 +145,18 @@ int main()
   return 0;
 }
 
+//entry of a car into the inventory
 void carCreation(dealer* dealership, int carID)
 {
-  char carBrand[30];
-  char carName[30];
-  int carType = 0;
-  char recType[10];
-  float carRate = 0;
-  int carAge = 0;
-  int optLux;
-  bool lux;
-  bool error = false;
+  char carBrand[30]; //name of company
+  char carName[30]; //name of car
+  int carType = 0; //type of car
+  char recType[10]; //store name based on carType "int" selection
+  float carRate = 0; //rate of $ to rent
+  int carAge = 0; //age of car
+  int optLux; //luxury or not, based on this int, store in bool "lux"
+  bool lux; //is car luxury?
+  bool error = false; //becomes true when there's an error/wrong input
   
   do
     {
@@ -175,7 +181,7 @@ void carCreation(dealer* dealership, int carID)
 	  cout << "Not a valid selection.\n";
 	  error = true;
 	}
-    }while(error == true);
+    }while(error == true); //if does not choose 1 or 2, repeat until valid
   
   cout << "Enter vehicle brand: ";
   cin.get(carBrand, 30, '\n');
@@ -234,16 +240,17 @@ void carCreation(dealer* dealership, int carID)
   cin.ignore();
   cout << endl;
   carID++;
-  car newCar(carID, carBrand, carName, recType, carRate, lux, carAge);
-  dealership->addCar(newCar);
+  car newCar(carID, carBrand, carName, recType, carRate, lux, carAge); //creates car object
+  dealership->addCar(newCar); //calls the dealership class function "addCar" to, well, add the newly generated car
 }
 
+//entry of a person into the customer list
 void custCreation(dealer* dealership, int custID)
 {
-  char first[30];
-  char last[30];
-  int type = 0;
-  bool error = false;
+  char first[30]; //first name
+  char last[30]; //last name
+  int type = 0; //Normal or upper status
+  bool error = false; //if error, will become true
 
   cout << "Enter customer's first name: ";
   cin.get(first, 30, '\n');
@@ -251,6 +258,7 @@ void custCreation(dealer* dealership, int custID)
   cout << "\nEnter customer's last name: ";
   cin.get(last, 30, '\n');
   cin.ignore();
+  //capitalize all to ignore case sensitivity
   for(int i = 0; i < strlen(first); i++)
     {
       first[i] = toupper(first[i]);
@@ -266,27 +274,28 @@ void custCreation(dealer* dealership, int custID)
       cin >> type;
       cin.ignore();
 
+      //after inputting type
       switch(type)
 	{
-	case 1:
+	case 1: //create a normal customer
 	  {
 	  normal* newReg = new normal(first, last, custID);
 	  dealership->addCust(newReg);
 	  break;
 	  }
-	case 2:
+	case 2: //create a corp. customer
 	  {
 	  corps* newCorps = new corps(first, last, custID);
 	  dealership->addCust(newCorps);
 	  break;
 	  }
-	case 3:
+	case 3: //create a VIP customer
 	  {
 	  vips* newVIP = new vips(first, last, custID);
 	  dealership->addCust(newVIP);
 	  break;
 	  }
-	default:
+	default: //else print error and repeat
 	  {
 	  error = true;
 	  cout << "Not a customer type. Try again.\n";
@@ -297,34 +306,38 @@ void custCreation(dealer* dealership, int custID)
     }while(error == true);
 }
 
+//random car generator, for testing (using file inputs)
 car carGen(dealer* dealership, int carID)
 {
-  int wordCount = 0;
-  int wordCount2 = 0;
-  ifstream fileIn;
+  int wordCount = 0; //first wordCount to read the brand name file
+  int wordCount2 = 0; //read the car name file
+  ifstream fileIn; //file input
 
-  fileIn.open("brand.txt");
-  char brandName[30];
-  char carName[30];
+  fileIn.open("brand.txt"); //open car brand file
+  char brandName[30]; //will store brand name
+  char carName[30]; //will store car name
 
+  //when file is open and exists, begin inputting 
   if(fileIn)
     {
       fileIn >> brandName;
       fileIn.ignore();
     }
-  while(!fileIn.eof() && fileIn)
+  while(!fileIn.eof() && fileIn) //loop until end of file
     {
       wordCount++;
       fileIn >> brandName;
       fileIn.ignore();
     }
   fileIn.clear();
-  fileIn.seekg(0, ios::beg);
+  fileIn.seekg(0, ios::beg); //reset from beginning
 
-  char** brandNameHolder;
-  brandNameHolder = new char*[wordCount];
-  wordCount = 0;
+  //wordCount acts as a check first for the number of words, then works in the 2nd part, below here
+  char** brandNameHolder; //holds all the brand names in a 2d array
+  brandNameHolder = new char*[wordCount]; //object is created for this
+  wordCount = 0; //reset wordCount back to 0
 
+  //repeat process, but now store the data
   if(fileIn)
     {
       fileIn >> brandName;
@@ -333,7 +346,7 @@ car carGen(dealer* dealership, int carID)
   while(!fileIn.eof() && fileIn)
     {
       brandNameHolder[wordCount] = new char[strlen(brandName)+1];
-      strcpy(brandNameHolder[wordCount], brandName);
+      strcpy(brandNameHolder[wordCount], brandName); //String copy into 2d array
       wordCount++;
       fileIn >> brandName;
       fileIn.ignore();
@@ -341,6 +354,8 @@ car carGen(dealer* dealership, int carID)
   fileIn.close();
   fileIn.clear();
 
+  //repeat process for the car file
+  
   fileIn.open("car.txt");
   if(fileIn)
     {
@@ -376,6 +391,7 @@ car carGen(dealer* dealership, int carID)
   fileIn.close();
   fileIn.clear();
 
+  //parameters needed to create a car object, using random generators
   int brandIndex = rand() % wordCount;
   int carIndex = rand() % wordCount2;
   int givenID = carID;
@@ -419,6 +435,6 @@ car carGen(dealer* dealership, int carID)
       break;
     }
   
-  car newCar(givenID, brandNameHolder[brandIndex], carNameHolder[carIndex], recType, rate, recLux, age);
-  return newCar;
+  car newCar(givenID, brandNameHolder[brandIndex], carNameHolder[carIndex], recType, rate, recLux, age); //create the new car
+  return newCar; //return the car, going straight into an add function for the dealership
 }
